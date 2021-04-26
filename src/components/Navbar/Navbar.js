@@ -20,7 +20,7 @@ function Navbar() {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        Admin Dashboard
+                        Covid19 Tracker
                     </Typography>
                     <NavLink
                         to="/login"
