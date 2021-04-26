@@ -1,6 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { deepPurple } from '@material-ui/core/colors'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -11,7 +10,7 @@ import Spinner from './components/Spinner/Spinner'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: deepPurple["A200"],
+      main: "#FF6109",
       contrastText: "#fff",
     },
     secondary: {

@@ -1,7 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
+
+import './Navbar.css'
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -20,7 +22,12 @@ function Navbar() {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
+                        <Link
+                            to="/"
+                            className="nav-link"
+                        >
                         Covid19 Tracker
+                        </Link>
                     </Typography>
                     <NavLink
                         to="/login"

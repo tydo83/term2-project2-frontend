@@ -57,40 +57,18 @@ function Signup() {
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        console.log(username)
-        console.log(email)
-        console.log(firstName)
-        console.log(lastName)
-        console.log(password)
     }
 
-    //without onBlurVersion 
-    // let lengthChecker = email.length > 0 && username.length > 0 && firstName.length> 0 && 
-    //                     lastName.length > 0 && password.length > 0
+    // without onBlurVersion 
+    let lengthChecker = email.length > 0 && username.length > 0 && firstName.length> 0 && 
+                        lastName.length > 0 && password.length > 0
 
-    // let errChecker = inputEmailError 
-    //                 || inputUserNameError || inputFirstNameError 
-    //                 || inputLastNameError || passwordError
+    let errChecker = inputEmailError 
+                    || inputUserNameError || inputFirstNameError 
+                    || inputLastNameError || passwordError
 
-    // useEffect(() => {
-    //     if( lengthChecker && !errChecker) {
-    //         setIsButtonDisabled(false)
-    //     } else {
-    //         setIsButtonDisabled(true)
-    //     }
-    // }, [email, username, firstName, lastName, password])
-
-    //onBlur version
     useEffect(() => {
-        if(!(isEmailOnBlur && isInputOnBlur && isFirstNameOnBlur && isLastNameOnBlur && isPasswordOnBlur)) {
-            return;
-        } 
-
-        if( inputEmailError === false && 
-            inputUserNameError === false && 
-            inputFirstNameError === false&& 
-            inputLastNameError === false&& 
-            passwordError === false) {
+        if( lengthChecker && !errChecker) {
             setIsButtonDisabled(false)
         } else {
             setIsButtonDisabled(true)
