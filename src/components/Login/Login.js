@@ -13,7 +13,6 @@ import {
 } from "@material-ui/core";
 
 import useInputHooks from '../hooks/useInputHooks'
-import useEmailHooks from '../hooks/useEmailHooks'
 import usePasswordHooks from '../hooks/usePasswordHooks'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,20 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-
-
 function Login() {
     const classes = useStyles();
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
-
-    // const [email, setEmail] = useState("")
-    // const [username, setUsername] = useState("")
-    // const [firstName, setFirstName] = useState("")
-    // const [lastName, setLastName] = useState("")
-    // const [password, setPassword] = useState("")
-
-    const [email, setEmail, inputEmailError, errorEmailMessage, isEmailOnBlur, handleEmailOnBlur] = useEmailHooks()
 
     const [
         username,
@@ -49,22 +38,24 @@ function Login() {
         handleInputOnBlur
     ] = useInputHooks()
 
-    const [firstName, setFirstName, inputFirstNameError, errorFirstNameMessage, isFirstNameOnBlur, handleFirstNameOnBlur] = useInputHooks()
-    const [lastName, setLastName, inputLastNameError, errorLastNameMessage, isLastNameOnBlur, handleLastNameOnBlur] = useInputHooks()
-
-    const [password, setPassword, passwordError, errorPasswordMessage, isPasswordOnBlur, handlePasswordOnBlur] = usePasswordHooks()
+    const [
+        password, 
+        setPassword, 
+        passwordError, 
+        errorPasswordMessage, 
+        isPasswordOnBlur, 
+        handlePasswordOnBlur
+    ] = usePasswordHooks()
 
     function handleOnSubmit(e) {
         e.preventDefault()
     }
 
     // without onBlurVersion 
-    let lengthChecker = email.length > 0 && username.length > 0 && firstName.length > 0 &&
-        lastName.length > 0 && password.length > 0
+    let lengthChecker = username.length > 0 && password.length > 0
 
-    let errChecker = inputEmailError
-        || inputUserNameError || inputFirstNameError
-        || inputLastNameError || passwordError
+    let errChecker = 
+        inputUserNameError || passwordError
 
     useEffect(() => {
         if (lengthChecker && !errChecker) {
@@ -72,19 +63,7 @@ function Login() {
         } else {
             setIsButtonDisabled(true)
         }
-    }, [email, username, firstName, lastName, password])
-
-
-
-
-
-
-
-
-
-
-
-
+    }, [username, password])
 
     return (
         <Grid
@@ -97,20 +76,6 @@ function Login() {
         >
             <Grid item xs={12}>
                 <form className={classes.root} autoComplete="on" onSubmit={handleOnSubmit}>
-                    <FormControl error={inputEmailError}>
-                        <InputLabel htmlFor="component-email">Email</InputLabel>
-                        <Input
-                            id="component-email"
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e)}
-                            onBlur={() => handleEmailOnBlur()}
-                        />
-                        <FormHelperText id="component-error-text">
-                            {inputEmailError && errorEmailMessage}
-                        </FormHelperText>
-                    </FormControl>
-                    <br />
                     <FormControl error={inputUserNameError}>
                         <InputLabel htmlFor="component-username">Username</InputLabel>
                         <Input
