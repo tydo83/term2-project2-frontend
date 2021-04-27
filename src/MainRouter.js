@@ -6,6 +6,7 @@ const Home = React.lazy(() => import('./components/Home/Home'))
 const Login = React.lazy(() => import('./components/Login/Login'))
 const SignUp = React.lazy(() => import('./components/Signup/Signup'))
 const Footer = React.lazy(() => import('./components/Footer/Footer'))
+const Features = React.lazy(() => import('./components/Features/Features'))
 
 function MainRouter() {
     return (
@@ -16,6 +17,7 @@ function MainRouter() {
                 <Route exact path="/sign-up" component={SignUp}/>
                 <Route path="/" component={Home}/>
             </Switch>
+            <Features />
             <Footer />
         </>
     )
