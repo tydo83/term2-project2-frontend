@@ -7,8 +7,6 @@ import {
     Input,
     InputLabel,
     Button,
-    CircularProgress,
-    Snackbar,
     Grid,
 } from "@material-ui/core";
 
@@ -34,28 +32,35 @@ function Login() {
         setUsername,
         inputUserNameError,
         errorUserNameMessage,
-        isInputOnBlur,
         handleInputOnBlur
     ] = useInputHooks()
 
     const [
-        password, 
-        setPassword, 
-        passwordError, 
-        errorPasswordMessage, 
-        isPasswordOnBlur, 
+        password,
+        setPassword,
+        passwordError,
+        errorPasswordMessage,
         handlePasswordOnBlur
     ] = usePasswordHooks()
 
-    function handleOnSubmit(e) {
+    async function handleOnSubmit(e) {
         e.preventDefault()
+        try {
+            let result = await axios.post("http://localhost:3001/users/login", {
+                userName: username,
+                password: password,
+            })
+            localStorage.setItem('jwtToken', result.data.jwtToken)
+            
+        } catch(e) {
+            console.log(e)
+        }
     }
 
     // without onBlurVersion 
     let lengthChecker = username.length > 0 && password.length > 0
 
-    let errChecker = 
-        inputUserNameError || passwordError
+    let errChecker = inputUserNameError || passwordError
 
     useEffect(() => {
         if (lengthChecker && !errChecker) {
@@ -63,6 +68,7 @@ function Login() {
         } else {
             setIsButtonDisabled(true)
         }
+
     }, [username, password])
 
     return (

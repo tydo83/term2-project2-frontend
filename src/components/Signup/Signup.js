@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import axios from 'axios'
 
 import {
     FormControl,
@@ -33,42 +34,49 @@ function Signup() {
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
-    // const [email, setEmail] = useState("")
-    // const [username, setUsername] = useState("")
-    // const [firstName, setFirstName] = useState("")
-    // const [lastName, setLastName] = useState("")
-    // const [password, setPassword] = useState("")
-
     const [email, setEmail, inputEmailError, errorEmailMessage, isEmailOnBlur, handleEmailOnBlur] = useEmailHooks()
 
     const [
-        username, 
-        setUsername, 
-        inputUserNameError, 
+        username,
+        setUsername,
+        inputUserNameError,
         errorUserNameMessage,
-        isInputOnBlur, 
+        isInputOnBlur,
         handleInputOnBlur
     ] = useInputHooks()
 
     const [firstName, setFirstName, inputFirstNameError, errorFirstNameMessage, isFirstNameOnBlur, handleFirstNameOnBlur] = useInputHooks()
-    const [lastName, setLastName, inputLastNameError, errorLastNameMessage,  isLastNameOnBlur, handleLastNameOnBlur] = useInputHooks()
-
+    const [lastName, setLastName, inputLastNameError, errorLastNameMessage, isLastNameOnBlur, handleLastNameOnBlur] = useInputHooks()
     const [password, setPassword, passwordError, errorPasswordMessage, isPasswordOnBlur, handlePasswordOnBlur] = usePasswordHooks()
 
-    function handleOnSubmit(e) {
-        e.preventDefault()
+    async function handleOnSubmit(e) {
+        e.preventDefault();
+        console.log(firstName, lastName, email, username, password);
+        try {
+            let result = await axios.post("http://localhost:3001/users/sign-up", {
+                firstName,
+                lastName,
+                email,
+                userName: username,
+                password,
+            })
+            console.log(result)
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
     // without onBlurVersion 
-    let lengthChecker = email.length > 0 && username.length > 0 && firstName.length> 0 && 
-                        lastName.length > 0 && password.length > 0
+    let lengthChecker = email.length > 0 && username.length > 0 && firstName.length > 0 &&
+        lastName.length > 0 && password.length > 0
 
-    let errChecker = inputEmailError 
-                    || inputUserNameError || inputFirstNameError 
-                    || inputLastNameError || passwordError
+    let errChecker = inputEmailError
+        || inputUserNameError || inputFirstNameError
+        || inputLastNameError || passwordError
 
     useEffect(() => {
-        if( lengthChecker && !errChecker) {
+        if (lengthChecker && !errChecker) {
             setIsButtonDisabled(false)
         } else {
             setIsButtonDisabled(true)
@@ -98,7 +106,7 @@ function Signup() {
                         <FormHelperText id="component-error-text">
                             {inputEmailError && errorEmailMessage}
                         </FormHelperText>
-                        </FormControl>
+                    </FormControl>
                     <br />
                     <FormControl error={inputUserNameError}>
                         <InputLabel htmlFor="component-username">Username</InputLabel>
@@ -156,12 +164,12 @@ function Signup() {
                             {passwordError && errorPasswordMessage}
                         </FormHelperText>
                     </FormControl>
-                    <br /> 
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
+                    <br />
+                    <Button
+                        variant="contained"
+                        color="primary"
                         type="submit"
-                        disabled={isButtonDisabled}    
+                        disabled={isButtonDisabled}
                     >Submit</Button>
                 </form>
             </Grid>
