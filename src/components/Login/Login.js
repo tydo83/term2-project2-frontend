@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import axios from 'axios'
 
 import {
     FormControl,
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function Login() {
+function Login(props) {
     const classes = useStyles();
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
@@ -51,7 +52,8 @@ function Login() {
                 password: password,
             })
             localStorage.setItem('jwtToken', result.data.jwtToken)
-            
+            props.history.push('/')
+            console.log(result)
         } catch(e) {
             console.log(e)
         }
@@ -89,7 +91,7 @@ function Login() {
                             name="username"
                             value={username}
                             onChange={(e) => setUsername(e)}
-                            onBlur={() => handleInputOnBlur()}
+                            // onBlur={() => handleInputOnBlur()}
                         />
                         <FormHelperText id="component-error-text">
                             {inputUserNameError && errorUserNameMessage}
@@ -104,7 +106,7 @@ function Login() {
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e)}
-                            onBlur={() => handlePasswordOnBlur()}
+                            // onBlur={() => handlePasswordOnBlur()}
                         />
                         <FormHelperText id="component-error-text">
                             {passwordError && errorPasswordMessage}
