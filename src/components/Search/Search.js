@@ -10,13 +10,30 @@ function Search() {
     const [countryArray, setCountryArray] = useState([])
     const [countryData, setCountryData] = useState(null)
 
-    useEffect(() => {
-        effect
-        return () => {
-            cleanup
+    useEffect(async () => {
+        try {
+            let countryPayload = await axios.get("https://covid-api.mmediagroup.fr/v1/cases")
+            let newCountryArray = []
+            for (let key in countryPayload.data) {
+                newCountryArray.push({
+                    country: key,
+                    data: countryPayload.data[key]
+                })
+            }
+            setCountryArray(newCountryArray)
+        } catch (e) {
+            console.log(e);
         }
     }, [])
 
+    function handleOnClick() {
+        try {
+            let foundCountry = countryArray.find(item => item.country === country)
+            setCountryData(foundCountry)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     return (
         <div style={{ marginTop: 50, textAlign: "center" }}>
@@ -24,9 +41,9 @@ function Search() {
             <br />
             <div className="lead" style={{ fontSize: 16 }}>
                 <label htmlFor="items" style={{ marginRight: 10 }}>Choose a country: </label>
-                <select id="items" onChange={this.handleOnChange} >
+                <select id="items" onChange={(e) => setCountry(e.target.value)} >
                     <option value="" selected disabled hidden>Choose here</option>
-                    {this.state.countryArray.map(country =>
+                    {countryArray.map(country =>
                         <option key={country.country} value={country.country}>
                             {country.country}
                         </option>)}
@@ -34,20 +51,19 @@ function Search() {
                 <button
                     className="btn btn-warning btn-sm"
                     style={{ margin: "25px 25px" }}
-                    onClick={this.handleOnClick}
+                    onClick={handleOnClick}
                 >
                     Search
                 </button>
-                {this.state.countryData !== null ? (
+                {countryData !== null ? (
                     <div className="lead" style={{ fontSize: 16 }}>
-                        {console.log(this.state.countryData)}
-                        Population: {this.state.countryData.data.All.population}
+                        Population: {countryData.data.All.population}
                         <br />
-                        Confirmed:{this.state.countryData.data.All.confirmed}
+                        Confirmed:{countryData.data.All.confirmed}
                         <br />
-                        Death:{this.state.countryData.data.All.deaths}
+                        Death:{countryData.data.All.deaths}
                         <br />
-                        Recovered: {this.state.countryData.data.All.recovered}
+                        Recovered: {countryData.data.All.recovered}
                     </div>
                 ) : ""}
             </div>
