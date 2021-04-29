@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import axios from 'axios'
+import { AuthContext } from '../context/AuthContext'
+import jwtDecode from 'jwt-decode'
 
 import {
     FormControl,
@@ -25,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
 
 function Login(props) {
     const classes = useStyles();
+
+    const context = useContext(AuthContext)
+    console.log(context);
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
@@ -52,6 +57,9 @@ function Login(props) {
                 password: password,
             })
             localStorage.setItem('jwtToken', result.data.jwtToken)
+            let decodedJWTToken = jwtDecode(result.data.jwtToken)
+            console.log(decodedJWTToken)
+            context.dispatch({ type: "SUCCESS_LOGGED_IN", user: decodedJWTToken.username})
             props.history.push('/')
             console.log(result)
         } catch(e) {
