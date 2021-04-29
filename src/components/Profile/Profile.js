@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import axios from 'axios'
-import { AuthContext } from '../context/AuthContext'
-import jwtDecode from 'jwt-decode'
 
 import {
     FormControl,
@@ -13,7 +10,6 @@ import {
     Grid,
 } from "@material-ui/core";
 
-import useInputHooks from '../hooks/useInputHooks'
 import usePasswordHooks from '../hooks/usePasswordHooks'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,20 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function Login(props) {
+function Profile() {
     const classes = useStyles();
-
-    const context = useContext(AuthContext)
-
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
-
-    const [
-        username,
-        setUsername,
-        inputUserNameError,
-        errorUserNameMessage,
-        handleInputOnBlur
-    ] = useInputHooks()
 
     const [
         password,
@@ -50,26 +35,11 @@ function Login(props) {
 
     async function handleOnSubmit(e) {
         e.preventDefault()
-        try {
-            let result = await axios.post("http://localhost:3001/users/login", {
-                userName: username,
-                password: password,
-            })
-            localStorage.setItem('jwtToken', result.data.jwtToken)
-            let decodedJWTToken = jwtDecode(result.data.jwtToken)
-            console.log(decodedJWTToken)
-            context.dispatch({ type: "SUCCESS_LOGGED_IN", user: decodedJWTToken.username})
-            props.history.push('/')
-            console.log(result)
-        } catch(e) {
-            console.log(e)
-        }
     }
 
-    // without onBlurVersion 
-    let lengthChecker = username.length > 0 && password.length > 0
+    let lengthChecker = password.length > 0
 
-    let errChecker = inputUserNameError || passwordError
+    let errChecker = passwordError
 
     useEffect(() => {
         if (lengthChecker && !errChecker) {
@@ -78,7 +48,7 @@ function Login(props) {
             setIsButtonDisabled(true)
         }
 
-    }, [username, password])
+    }, [password])
 
     return (
         <Grid
@@ -91,20 +61,6 @@ function Login(props) {
         >
             <Grid item xs={12}>
                 <form className={classes.root} autoComplete="on" onSubmit={handleOnSubmit}>
-                    <FormControl error={inputUserNameError}>
-                        <InputLabel htmlFor="component-username">Username</InputLabel>
-                        <Input
-                            id="component-username"
-                            name="username"
-                            value={username}
-                            onChange={(e) => setUsername(e)}
-                            // onBlur={() => handleInputOnBlur()}
-                        />
-                        <FormHelperText id="component-error-text">
-                            {inputUserNameError && errorUserNameMessage}
-                        </FormHelperText>
-                    </FormControl>
-                    <br />
                     <FormControl error={passwordError}>
                         <InputLabel htmlFor="component-password">Password</InputLabel>
                         <Input
@@ -113,11 +69,20 @@ function Login(props) {
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e)}
-                            // onBlur={() => handlePasswordOnBlur()}
+                        // onBlur={() => handlePasswordOnBlur()}
                         />
                         <FormHelperText id="component-error-text">
                             {passwordError && errorPasswordMessage}
                         </FormHelperText>
+                    </FormControl>
+                    <br />
+                    <FormControl>
+                        <InputLabel htmlFor="component-newPassword">New Password</InputLabel>
+                        <Input
+                            type="password"
+                            id="component-newPassword"
+                            name="newPassword"
+                        />
                     </FormControl>
                     <br />
                     <Button
@@ -125,11 +90,12 @@ function Login(props) {
                         color="primary"
                         type="submit"
                         disabled={isButtonDisabled}
-                    >Submit</Button>
+                    >Change Password</Button>
                 </form>
             </Grid>
         </Grid>
     )
+
 }
 
-export default Login
+export default Profile

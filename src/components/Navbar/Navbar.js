@@ -16,15 +16,17 @@ const useStyle = makeStyles(() => ({
         flexGrow: 1,
     },
 }));
+
 function Navbar() {
     const classes = useStyle();
     const context = useContext(AuthContext);
-    console.log(history);
+
     function logout() {
         localStorage.removeItem("jwtToken");
         context.dispatch({ type: "LOGGED_OUT" });
         history.push("/login");        
     }
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -32,7 +34,7 @@ function Navbar() {
                     <Typography variant="h6" className={classes.title}>
                         <Link to="/" className="nav-link">
                             Covid19 Tracker
-            </Link>
+                        </Link>
                     </Typography>
                     {context.state.isAuth ? (
                         <>
@@ -42,17 +44,17 @@ function Navbar() {
                                 className="nav-link"
                                 activeClassName="active-nav-link"
                             >
-                                <Button color="inherit">{context.state.user}</Button>
+                            <Button color="inherit">{context.state.user}</Button>
                             </NavLink>
                             <NavLink
-                                to="/"
+                                to="/login"
                                 exact
                                 className="nav-link"
                                 activeClassName="active-nav-link"
                             >
                                 <Button color="inherit" onClick={logout}>
                                     Logout
-                </Button>
+                            </Button>
                             </NavLink>
                         </>
                     ) : (

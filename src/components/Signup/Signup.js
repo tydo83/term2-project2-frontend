@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function Signup() {
+function Signup(props) {
     const classes = useStyles();
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
@@ -60,7 +60,7 @@ function Signup() {
                 userName: username,
                 password,
             })
-            console.log(result)
+            props.history.push('/login')
         } catch (e) {
             console.log(e)
         }

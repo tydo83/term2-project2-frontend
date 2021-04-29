@@ -9,6 +9,7 @@ const Login = React.lazy(() => import('./components/Login/Login'))
 const SignUp = React.lazy(() => import('./components/Signup/Signup'))
 const Footer = React.lazy(() => import('./components/Footer/Footer'))
 const Features = React.lazy(() => import('./components/Features/Features'))
+const Profile = React.lazy(() => import('./components/Profile/Profile'))
 
 function MainRouter() {
     return (
@@ -17,6 +18,7 @@ function MainRouter() {
                 <Switch>
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/sign-up" component={SignUp} />
+                    <Route path="/profile" component={Profile} />
                     <Route path="/" component={Home} />
                 </Switch>
                 <Features />
