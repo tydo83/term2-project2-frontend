@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history';
 import { AuthContext } from "../context/AuthContext";
 import "./Navbar.css";
 import { checkIsUserLoggedIn }from '../../lib/helpers'
-
+import jwtDecode from 'jwt-decode'
 
 let history = createBrowserHistory();
 
@@ -31,7 +31,9 @@ function Navbar() {
 
     useEffect(() => {
         if(checkIsUserLoggedIn()) {
-            context.dispatch({ type: "SUCCESS_LOGGED_IN" });
+            let getJwtToken = localStorage.getItem('jwtToken');
+            let decodedJWtToken = jwtDecode(getJwtToken);
+            context.dispatch({ type: "SUCCESS_LOGGED_IN", user: decodedJWtToken.username });
         } else {
             context.dispatch({ type: "LOGGED_OUT" });
         }
@@ -42,10 +44,11 @@ function Navbar() {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        <Link to="/" className="nav-link">
+                        <Link to={checkIsUserLoggedIn() ? "/search" : "/"} className="nav-link">
                             Covid19 Tracker
                         </Link>
                     </Typography>
+                    {console.log(context.state)}
                     {context.state.isAuth ? (
                         <>
                             <NavLink

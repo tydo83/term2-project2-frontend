@@ -19,7 +19,7 @@ function reducer(state, action) {
                 isAuth: false,
             };
         default:
-            return state;
+            return initialState;
     }
 }
 
