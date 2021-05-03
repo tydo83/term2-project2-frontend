@@ -11,6 +11,7 @@ export function checkIsUserLoggedIn() {
             setAuthToken(null)
             return false;
         } else {
+            console.log(decodedJWtToken);
             return true;
         }
     }

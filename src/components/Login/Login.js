@@ -84,24 +84,24 @@ function Login(props) {
 
     let errChecker = inputUserNameError || passwordError
 
-    function login() {
-        let getJwtToken = localStorage.getItem('jwtToken');
-        if(getJwtToken) {
-            const currentTime = Date.now() / 1000;
-            let decodedJWtToken = jwtDecode(getJwtToken);
-            if(decodedJWtToken.exp < currentTime) {
-                localStorage.removeItem('jwtToken')
-                history.push("/login");        
-            } else {
-                history.push("/search");        
-            }
-        }
-    }
+    // function login() {
+    //     let getJwtToken = localStorage.getItem('jwtToken');
+    //     if(getJwtToken) {
+    //         const currentTime = Date.now() / 1000;
+    //         let decodedJWtToken = jwtDecode(getJwtToken);
+    //         if(decodedJWtToken.exp < currentTime) {
+    //             localStorage.removeItem('jwtToken')
+    //             history.push("/login");        
+    //         } else {
+    //             history.push("/search");        
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         if (lengthChecker && !errChecker) {
             setIsButtonDisabled(false)
-            login()
+            // login()
         } else {
             setIsButtonDisabled(true)
         }
@@ -110,13 +110,14 @@ function Login(props) {
 
     return (
         <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "30vh" }}
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: "30vh" }}
         >
+            {console.log(context)}
             <Grid item xs={12}>
                 <form className={classes.root} autoComplete="on" onSubmit={handleOnSubmit}>
                     <FormControl error={inputUserNameError}>

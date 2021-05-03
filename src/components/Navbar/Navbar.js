@@ -1,10 +1,12 @@
-import React, { useReduce, useContext } from "react";
+import React, { useReduce, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { NavLink, Link } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 import { AuthContext } from "../context/AuthContext";
 import "./Navbar.css";
+import { checkIsUserLoggedIn }from '../../lib/helpers'
+
 
 let history = createBrowserHistory();
 
@@ -27,6 +29,14 @@ function Navbar() {
         history.push("/login");        
     }
 
+    useEffect(() => {
+        if(checkIsUserLoggedIn()) {
+            context.dispatch({ type: "SUCCESS_LOGGED_IN" });
+        } else {
+            context.dispatch({ type: "LOGGED_OUT" });
+        }
+    }, [])
+    
     return (
         <div className={classes.root}>
             <AppBar position="static">
