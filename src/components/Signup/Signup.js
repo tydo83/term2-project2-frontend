@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import axios from 'axios'
+import { toast } from 'react-toastify';
 
 import {
     FormControl,
@@ -60,11 +61,27 @@ function Signup(props) {
                 userName: username,
                 password,
             })
+            toast.success("Yas!!! you can log in now", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
             props.history.push('/login')
         } catch (e) {
-            console.log(e)
+            toast.error(e.response.data, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
-
     }
 
     // without onBlurVersion 

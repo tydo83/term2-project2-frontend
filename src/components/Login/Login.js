@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 import setAuthToken from '../../lib/setAuthToken'
 import { checkIsUserLoggedIn } from '../../lib/helpers'
 import { createBrowserHistory } from 'history';
+import { toast } from 'react-toastify';
 
 import {
     FormControl,
@@ -66,6 +67,15 @@ function Login(props) {
             props.history.push('/search')
         } catch(e) {
             console.log(e)
+            toast.error(e.response.data, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     }
 
