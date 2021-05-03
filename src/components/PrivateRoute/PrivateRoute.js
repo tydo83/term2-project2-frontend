@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { checkIsUserLoggedIn } from './lib/helpers'
+import { checkIsUserLoggedIn } from '../../lib/helpers'
 
 const privateRoute = ({ component: Component, user, handleUserLogout, ...rest }) => {
     return (

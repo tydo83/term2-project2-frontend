@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import AuthContextComponent from './components/context/AuthContext'
-
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 const Navbar = React.lazy(() => import('./components/Navbar/Navbar'))
 const Home = React.lazy(() => import('./components/Home/Home'))
@@ -11,9 +11,8 @@ const Footer = React.lazy(() => import('./components/Footer/Footer'))
 const Features = React.lazy(() => import('./components/Features/Features'))
 const Profile = React.lazy(() => import('./components/Profile/Profile'))
 const Search = React.lazy(() => import('./components/Search/Search'))
-const PrivateRoute = React.lazy(() => import('./components/PrivateRoute/PrivateRoute'))
 
-function MainRouter() {
+function MainRouter(props) {
     return (
             <AuthContextComponent>
                 <Navbar />

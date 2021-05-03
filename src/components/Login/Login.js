@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import jwtDecode from 'jwt-decode'
+import setAuthToken from '../../lib/setAuthToken'
+import { checkIsUserLoggedIn } from '../../lib/helpers'
+import { createBrowserHistory } from 'history';
 
 import {
     FormControl,
@@ -15,6 +18,8 @@ import {
 
 import useInputHooks from '../hooks/useInputHooks'
 import usePasswordHooks from '../hooks/usePasswordHooks'
+
+let history = createBrowserHistory();
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,10 +62,8 @@ function Login(props) {
             })
             localStorage.setItem('jwtToken', result.data.jwtToken)
             let decodedJWTToken = jwtDecode(result.data.jwtToken)
-            console.log(decodedJWTToken)
             context.dispatch({ type: "SUCCESS_LOGGED_IN", user: decodedJWTToken.username})
-            props.history.push('/')
-            console.log(result)
+            props.history.push('/search')
         } catch(e) {
             console.log(e)
         }
@@ -71,14 +74,29 @@ function Login(props) {
 
     let errChecker = inputUserNameError || passwordError
 
+    function login() {
+        let getJwtToken = localStorage.getItem('jwtToken');
+        if(getJwtToken) {
+            const currentTime = Date.now() / 1000;
+            let decodedJWtToken = jwtDecode(getJwtToken);
+            if(decodedJWtToken.exp < currentTime) {
+                localStorage.removeItem('jwtToken')
+                history.push("/login");        
+            } else {
+                history.push("/search");        
+            }
+        }
+    }
+
     useEffect(() => {
         if (lengthChecker && !errChecker) {
             setIsButtonDisabled(false)
+            login()
         } else {
             setIsButtonDisabled(true)
         }
-
     }, [username, password])
+
 
     return (
         <Grid
