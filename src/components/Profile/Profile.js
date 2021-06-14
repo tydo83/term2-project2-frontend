@@ -39,7 +39,7 @@ function Profile(props) {
             let decodedJwtToken = jwtDecode(getJwtToken)
             console.log(decodedJwtToken)
             let success = await axios.put(
-                "http://localhost:3001/users/update-password",
+                "api/users/update-password",
                 {
                     userName: decodedJwtToken.username,
                     oldPassword: oldPassword,
