@@ -7,6 +7,7 @@ import setAuthToken from '../../lib/setAuthToken'
 import { checkIsUserLoggedIn } from '../../lib/helpers'
 import { createBrowserHistory } from 'history';
 import { toast } from 'react-toastify';
+import Axios from '../lib/Axios'
 
 import {
     FormControl,
@@ -57,7 +58,7 @@ function Login(props) {
     async function handleOnSubmit(e) {
         e.preventDefault()
         try {
-            let result = await axios.post("http://localhost:3001/users/login", {
+            let result = await axios.post("api/users/login", {
                 userName: username,
                 password: password,
             })
