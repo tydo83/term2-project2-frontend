@@ -7,7 +7,6 @@ import setAuthToken from '../../lib/setAuthToken'
 import { checkIsUserLoggedIn } from '../../lib/helpers'
 import { createBrowserHistory } from 'history';
 import { toast } from 'react-toastify';
-import Axios from '../lib/Axios'
 
 import {
     FormControl,
